@@ -204,7 +204,10 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 
-MEDIA_URL = os.getenv("MEDIA_URL")
+MEDIA_URL = os.getenv("MEDIA_URL", "media/")
+STATICFILES_DIRS = [
+    BASE_DIR / "static", 
+]
 
 STORAGES = {
     "default": {
