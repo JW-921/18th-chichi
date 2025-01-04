@@ -150,9 +150,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [
-    BASE_DIR / "static",  # 確保這裡指向包含 styles 的目錄
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",  # 確保這裡指向包含 styles 的目錄
+# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -200,7 +200,10 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 
-MEDIA_URL = os.getenv("MEDIA_URL")
+MEDIA_URL = os.getenv("MEDIA_URL", "media/")
+STATICFILES_DIRS = [
+    BASE_DIR / "static", 
+]
 
 STORAGES = {
     "default": {
