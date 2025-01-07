@@ -5,5 +5,6 @@ __pycache__
 node_modules
 .DS_Store
 .pyc
-staticfiles
 static
+!static/media
+!static/svg
