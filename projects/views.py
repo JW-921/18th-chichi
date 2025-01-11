@@ -586,6 +586,9 @@ def public(request, slug):
     parent_ids = [category.parent_id for category in categories if category.parent_id]
     parent_categories = Category.objects.filter(id__in=parent_ids)
 
+    profile = project.account.profile
+    comments = project.comments.filter(parent__isnull=True).order_by("-created_at")
+
     return render(
         request,
         "projects/public.html",
@@ -598,6 +601,8 @@ def public(request, slug):
             "favorited": favorited,
             "categories": categories,
             "parent_categories": parent_categories,
+            "profile": profile,
+            "comments": comments,
         },
     )
 
