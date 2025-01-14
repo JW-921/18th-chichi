@@ -24,14 +24,13 @@
         <p class="text-lg mb-1">目前累積金額</p>
         <p class="text-3xl font-bold text-teal-600">NT$ {{ project.raised_amount|default:"0" }}</p>
         <!-- 進度條容器 -->
-        <div class="mt-2 bg-gray-200 rounded-full h-4">
-          <!-- 修改高度為 h-4 -->
+        <div class="mt-2 bg-gray-200 rounded-full h-4 overflow-hidden">
           <!-- 進度條 -->
-          <div class="bg-teal-500 h-4 rounded-full" style="width: {{ progress_percentage }}%"></div>
+          <div class="bg-teal-500 h-4 rounded-full" style="width: {% if progress_percentage > 100 %}100{% else %}{{ progress_percentage }}{% endif %}%"></div>
         </div>
         <div class="flex justify-between text-sm text-gray-600 mt-1">
           <p>目標金額：NT$ {{ project.goal_amount|default:"0" }}</p>
-          <p>達成率： {{ progress_percentage }}%</p>
+          <p>達成率：{% if progress_percentage > 999 %}999+{% else %}{{ progress_percentage|floatformat:"0" }}{% endif %}%</p>
         </div>
       </div>
 
@@ -46,7 +45,13 @@
               倒數
             </p>
             <div class="flex gap-2">
-              <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded">{{ project.end_at|timeuntil }}</span>
+              <span class="bg-teal-100 text-teal-800 px-3 py-1 rounded">
+                {% if total_days > 0 %}
+                  {{ total_days }} 天
+                {% else %}
+                  已結束
+                {% endif %}
+              </span>
             </div>
           </div>
         </div>
@@ -74,16 +79,16 @@
     </div>
 
     <!-- 功能按鈕 -->
-    <div class="flex flex-wrap gap-4 mb-8">
-      <a href="{% url 'projects:edit' project.slug %}" class="btn" style="background-color: #85cacc20; color: #1ea29e">
+    <div class="flex flex-wrap gap-4">
+      <a href="{% url 'projects:edit' project.slug %}" class="btn min-w-[120px] text-center" style="background-color: #85cacc20; color: #1ea29e">
         <i class="fas fa-edit mr-2"></i>
         編輯專案
       </a>
-      <a href="{% url 'projects:comment' project.slug %}" class="btn" style="background-color: #85cacc20; color: #1ea29e">
+      <a href="{% url 'projects:comment' project.slug %}" class="btn min-w-[120px] text-center" style="background-color: #85cacc20; color: #1ea29e">
         <i class="fas fa-comments mr-2"></i>
         留言板
       </a>
-      <a href="{% url 'projects:faq_index' project.slug %}" class="btn" style="background-color: #85cacc20; color: #1ea29e">
+      <a href="{% url 'projects:faq_index' project.slug %}" class="btn min-w-[120px] text-center" style="background-color: #85cacc20; color: #1ea29e">
         <i class="fas fa-question-circle mr-2"></i>
         常見問題
       </a>
