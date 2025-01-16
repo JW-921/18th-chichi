@@ -2,7 +2,13 @@
 name = "chichi"
 version = "0.1.0"
 description = ""
-authors = ["IanYang1106 <monoyen2001@gmail.com>"]
+authors = [
+    "IanYang1106 <monoyen2001@gmail.com>",
+    "minirov1208 <a0939897580@gmail.com>",
+    "Jason Wang <a27371510@gmail.com>",
+    "lioouzzz <lioou.work@gmail.com>",
+    "viviennehsin <viviennehsin@gmail.com>"
+    ]
 readme = "README.md"
 package-mode = false
 

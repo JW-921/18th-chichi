@@ -1,5 +1,6 @@
 from pathlib import Path
 import environ
+
 import os
 from dotenv import load_dotenv
 
@@ -26,15 +27,17 @@ SECRET_KEY = env("SECRET_KEY", default="your-default-secret-key")
 DEBUG = env.bool("DEBUG", default=True)
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
-# Application definition
 
+
+
+
+# Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "daphne",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "accounts",
@@ -53,7 +56,6 @@ INSTALLED_APPS = [
     "rewards",
     "update_records",
     "payments",
-    "channels",
     "chats",
     "anymail",
 ]
@@ -99,11 +101,11 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": env("DB_NAME"),
-        "USER": env("DB_USER"),
-        "PASSWORD": env("DB_PASSWORD"),
-        "HOST": env("DB_HOST"),
-        "PORT": env("DB_PORT"),
+        "NAME": env("MYSQL_DATABASE"),
+        "USER": env("MYSQL_USERNAME"),
+        "PASSWORD": env("MYSQL_PASSWORD"),
+        "HOST": env("MYSQL_HOST"),
+        "PORT": env("MYSQL_PORT"),
     }
 }
 
@@ -149,7 +151,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 STATICFILES_DIRS = [
     BASE_DIR / "static",  # 確保這裡指向包含 styles 的目錄
 ]
@@ -221,25 +225,17 @@ CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS").split(",")
 # Channels 配置
 ASGI_APPLICATION = "core.asgi.application"
 
-# Channel Layers 配置
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [
-                (
-                    os.getenv("REDIS_HOST"),  # Redis 主機地址
-                    os.getenv("REDIS_PORT"),  # Redis 端口
-                )
-            ],
-        },
-    },
-}
-
 ANYMAIL = {
     "MAILGUN_API_KEY": os.getenv("MAILGUN_API_KEY"),
     "MAILGUN_SENDER_DOMAIN": os.getenv("MAILGUN_SENDER_DOMAIN"),
 }
 
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
-DEFAULT_FROM_EMAIL = "吱吱Chichi@mg.chichii.com"
+DEFAULT_FROM_EMAIL = "吱吱 CHICHI <CHICHI@mg.chichii.com>"
+
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://chichii.com',
+]

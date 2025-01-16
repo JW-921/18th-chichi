@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "esbuild frontends/scripts/app.js --bundle --outfile=static/scripts/app.js --watch --platform=browser",
-    "build": "esbuild frontends/scripts/app.js --bundle --outfile=static/scripts/app.js",
+    "build": "tailwindcss -i ./frontends/styles/app.css -o ./static/styles/app.css && esbuild frontends/scripts/app.js --bundle --outfile=static/scripts/app.js",
     "css": "tailwindcss -i ./frontends/styles/app.css -o ./static/styles/app.css --watch",
     "commit": "cz"
   },
