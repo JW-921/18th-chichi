@@ -136,11 +136,10 @@ def register(request):
                 website="",
             )
             message = AnymailMessage(
-                subject="Welcome to Chichii",
-                from_email="吱吱Chichi@mg.chichii.com",
+                subject="Welcome to CHICHI",
                 to=[account.email],
             )
-            message.template_id = "welcome_mail" 
+            message.template_id = "welcome_email" 
             message.merge_global_data = {
                 "username": account.username,
             }
@@ -181,11 +180,10 @@ def privacy(request):
 @receiver(user_signed_up)
 def send_welcome_email(request, user, **kwargs):
     message = AnymailMessage(
-        subject="Welcome to Chichii",
-        from_email="吱吱Chichi@mg.chichii.com",
+        subject="Welcome to CHICHI",
         to=[user.email],
     )
-    message.template_id = "welcome_mail"
+    message.template_id = "welcome_email"
     message.merge_global_data = {
         "username": user.username,
     }
