@@ -81,12 +81,12 @@
                   <p class="text-2xl font-bold text-gray-900 leading-none mb-1">{{ total_days }}</p>
                   <p class="text-xs text-[#1EA29E]">
                     <i class="fas fa-clock mr-1"></i>
-                    倒數中
+                    {% if total_days > 0 %}倒數中{% else %}已結束{% endif %}
                   </p>
                 </div>
                 <div class="flex flex-col items-end">
                   <p class="text-sm text-gray-500 mb-1">達成率</p>
-                  <p class="text-2xl font-bold text-gray-900 leading-none">{{ progress_percentage }}%</p>
+                  <p class="text-2xl font-bold text-gray-900 leading-none">{% if progress_percentage > 999 %}999+{% else %}{{ progress_percentage }}{% endif %}%</p>
                 </div>
               </div>
               <p class="text-3xl font-bold text-gray-900">NT$ {{ project.raised_amount|default:"0"|intcomma }}</p>
@@ -96,7 +96,9 @@
             <!-- 進度條 -->
             <div class="relative pt-1">
               <div class="overflow-hidden h-4 mb-4 text-xs flex rounded bg-gray-200">
-                <div class="bg-[#1EA29E] h-4 rounded" style="width: {{ progress_percentage }}%"></div>
+                <div class="bg-[#1EA29E] h-4 rounded transition-all duration-700"
+                     style="width: {% if progress_percentage > 100 %}100{% else %}{{ progress_percentage }}{% endif %}%">
+                </div>
               </div>
             </div>
 

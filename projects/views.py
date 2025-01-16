@@ -42,8 +42,7 @@ def calculate_progress_percentage(raised_amount, goal_amount):
     if not goal_amount or goal_amount == 0:
         return 0
     percentage = (raised_amount or 0) / goal_amount * 100
-    # 確保百分比不超過 100%
-    return min(round(percentage, 1), 100)  # 四捨五入到小數點第一位，並限制最大值為 100
+    return round(percentage)  # 四捨五入到整數
 
 
 @login_required
@@ -99,9 +98,15 @@ def show(request, slug):
     ).order_by("-id")
 
     # 計算達成率
-    progress_percentage = calculate_progress_percentage(
-        project.raised_amount, project.goal_amount
-    )
+    if project.goal_amount and project.goal_amount > 0:
+        progress_percentage = round(
+            (project.raised_amount or 0) / project.goal_amount * 100, 1
+        )
+    else:
+        progress_percentage = 0
+
+    # 計算剩餘天數
+    total_days = calculate_total_days(project.end_at)
 
     if request.POST:
         # 處理上架邏輯
@@ -171,6 +176,7 @@ def show(request, slug):
             "favorited": favorited,
             "comments": comments,
             "progress_percentage": progress_percentage,  # 加入達成率
+            "total_days": total_days,  # 加入剩餘天數
             "categories": categories,
             "parent_categories": parent_categories,
             "chat_rooms": chat_rooms,  # 加入聊天室列表
@@ -996,7 +1002,7 @@ def daily_sponsorship_amount_excel(request, slug):
 
 def search_projects(request):
     form = ProjectSearchForm(request.GET or None)  # 初始化表單
-    projects = Project.objects.filter(status="live",deleted_at__isnull=True)
+    projects = Project.objects.filter(status="live", deleted_at__isnull=True)
 
     if form.is_valid():
         query = form.cleaned_data.get("query", "")
@@ -1012,13 +1018,12 @@ def search_projects(request):
                 | Q(location__icontains=query)
                 | Q(categories__title__icontains=query)
             ).distinct()
-            
+
         if status:
             projects = projects.filter(status=status)
-            
+
         if location:
             projects = projects.filter(location__icontains=location)
-            
 
     paginator = Paginator(projects, 12)
     page_number = request.GET.get("page", 1)
