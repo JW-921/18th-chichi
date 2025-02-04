@@ -132,7 +132,7 @@
               </div>
               <div class="flex justify-between text-sm sm:text-base">
                 <span class="font-medium text-gray-600">
-                  NT$ {{ project.raised_amount|floatformat:0|intcomma }}
+                  NT$ {{ project.raised_amount|floatformat:0|intcomma:False }}
                 </span>
                 <span class="font-medium text-[#1EA29E]">
                   {% if percentage > 999 %}999+{% else %}{{ percentage }}{% endif %}%
@@ -140,7 +140,7 @@
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-lg sm:text-xl lg:text-2xl font-bold text-[#1EA29E]">
-                  目標 $ {{ project.goal_amount|floatformat:0|intcomma }}
+                  目標 $ {{ project.goal_amount|floatformat:0|intcomma:False }}
                 </span>
                 <div class="text-base sm:text-lg lg:text-xl text-[#1EA29E]">
                   {% if project.remaining_days > 0 %}

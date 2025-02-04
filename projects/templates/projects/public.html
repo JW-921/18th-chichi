@@ -104,8 +104,8 @@
                   <p class="text-2xl font-bold text-gray-900 leading-none">{% if progress_percentage > 999 %}999+{% else %}{{ progress_percentage }}{% endif %}%</p>
                 </div>
               </div>
-              <p class="text-3xl font-bold text-gray-900">NT$ {{ project.raised_amount|default:"0"|intcomma }}</p>
-              <p class="text-sm text-gray-500">目標 NT$ {{ project.goal_amount|default:"0"|intcomma }}</p>
+              <p class="text-3xl font-bold text-gray-900">NT$ {{ project.raised_amount|default:"0"|intcomma:False }}</p>
+              <p class="text-sm text-gray-500">目標 NT$ {{ project.goal_amount|default:"0"|intcomma:False }}</p>
             </div>
 
             <!-- 進度條 -->
